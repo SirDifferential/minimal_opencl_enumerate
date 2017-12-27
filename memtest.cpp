@@ -21,7 +21,7 @@ int main(int, char**)
 
     int mem_alloc_start = 128;
     int mem_alloc_end = 15000; // 15000 * 15000 bytes = 225 MB
-    int iterations = 4;
+    int iterations = 8196;
     int current_alloc = mem_alloc_start;
     int increment = 128;
     int alloc_mbytes = 0;

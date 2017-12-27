@@ -224,8 +224,8 @@ bool releaseProgram(OpenCLProgram& program)
 {
     std::cout << "Releasing OpenCL program " << program._filepath.c_str() << std::endl;
     cl_int err_code = clReleaseProgram(program._program);
-    CHECK_ERROR(err_code, "clReleaseProgram");
-    return err_code == CL_SUCCESS ? true : false;
+    CHECK_ERROR_RET(err_code, "clReleaseProgram");
+    return true;
 }
 
 bool compileProgram(cl_context& context, const cl_device_id& dev_id, OpenCLProgram& program)
@@ -315,15 +315,14 @@ bool allocateBuffer(cl_context& context, OpenCLBuffer& buf, cl_mem_flags memflag
 bool releaseBuffer(OpenCLBuffer& buf)
 {
     cl_int err_code = clReleaseMemObject(buf._buffer);
-    CHECK_ERROR(err_code, "clReleaseMemObject");
-    if (err_code != CL_SUCCESS) return false;
+    CHECK_ERROR_RET(err_code, "clReleaseMemObject");
     return true;
 }
 
 bool readBuffer(cl_command_queue& queue, OpenCLBuffer buf, void* dest, size_t size)
 {
     cl_int err_code = clEnqueueReadBuffer(queue, buf._buffer, true, 0, size, dest, 0, NULL, NULL);
-    CHECK_ERROR(err_code, "clEnqueueReadBuffer");
+    CHECK_ERROR_RET(err_code, "clEnqueueReadBuffer");
     return true;
 }
 
@@ -334,14 +333,14 @@ bool createCommandQueue(cl_context& context, cl_device_id& dev, cl_command_queue
     if (out_of_order)
         prop |= CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE;
     queue = clCreateCommandQueue(context, dev, prop, &err_code);
-    CHECK_ERROR(err_code, "createCommandQueue");
+    CHECK_ERROR_RET(err_code, "createCommandQueue");
     return true;
 }
 
 bool releaseCommandQueue(cl_command_queue& queue)
 {
     cl_int err_code = clReleaseCommandQueue(queue);
-    CHECK_ERROR(err_code, "clReleaseCommandQueue");
+    CHECK_ERROR_RET(err_code, "clReleaseCommandQueue");
     return true;
 }
 

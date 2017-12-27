@@ -24,7 +24,6 @@ int main(int, char**)
     int iterations = 8196;
     int current_alloc = mem_alloc_start;
     int increment = 128;
-    int alloc_mbytes = 0;
 
     while (current_alloc < mem_alloc_end)
     {
@@ -39,8 +38,6 @@ int main(int, char**)
                 testbuf[y * current_alloc + x] = (x*y) % 255;
             }
         }
-
-        alloc_mbytes = current_alloc * current_alloc / 1024 / 1024;
 
         for (int iter = 0; iter < iterations; iter++)
         {
@@ -102,7 +99,7 @@ int main(int, char**)
         delete[] testbuf;
         delete[] outbuf;
         if (current_alloc * current_alloc > 1000000)
-            fprintf(stderr, "Tested %d megabytes of memory\n", current_alloc * current_alloc / 1044 / 1024);
+            fprintf(stderr, "Tested %d megabytes of memory\n", current_alloc * current_alloc / 1024 / 1024);
         else
             fprintf(stderr, "Tested %d bytes of memory\n", current_alloc * current_alloc);
 
